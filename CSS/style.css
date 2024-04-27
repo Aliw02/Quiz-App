@@ -123,3 +123,51 @@ body {
 .quiz-app .results span.perfect {
   color: #0075ff;
 }
+
+.quiz-app .login {
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 16px;
+  color: #777;
+}
+
+.quiz-app .login span {
+  transition: 0.3s;
+}
+
+.quiz-app .login span:hover span {
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.quiz-app .login .login-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  padding: 20px 0;
+  background-color: #dfdfdf;
+}
+
+.quiz-app .login .login-form input {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  outline: none;
+}
+
+.quiz-app .login .login-form input:focus {
+  outline: 1px solid #0075ff;
+}
+
+.quiz-app .login .login-form button {
+  width: 100px;
+  padding: 10px 20px;
+  margin-left: 20px;
+  border: 1px solid #fff;
+  background-color: #0075ff;
+  color: #fff;
+  cursor: pointer;
+}

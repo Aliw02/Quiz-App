@@ -6,13 +6,13 @@ let bulletsSpanContainer = document.querySelector(".bullets .spans");
 let answersArea = document.querySelector(".answers-area");
 let submitButton = document.querySelector(".submit-button");
 let results = document.querySelector(".results");
-let countdownElement = document.querySelector(".countdown");
+// let countdownElement = document.querySelector(".countdown");
 
 
 // Set Options
 let currentIndex = 0;
 let rightAnswer = 0;
-let countdownInterval;
+// let countdownInterval;
 
 function getQuestions() {
 
@@ -32,7 +32,7 @@ function getQuestions() {
             addQuestionData(questionsObject[currentIndex], qCount);
 
             // Starting The Countdown 
-            countdown(5, qCount)
+            // countdown(5, qCount)
 
             // Click On Submit
             submitButton.onclick = () => {
@@ -58,8 +58,8 @@ function getQuestions() {
                 handleBullets();
 
                 // Starting The Countdown 
-                clearInterval(countdownInterval);
-                countdown(5, qCount)
+                // clearInterval(countdownInterval);
+                // countdown(5, qCount);
 
                 // Show Results
                 showResults(qCount);
@@ -235,34 +235,34 @@ function showResults(count) {
 }
 
 
-function countdown(duration, count) {
+// function countdown(duration, count) {
 
-    if (currentIndex < count) {
+//     if (currentIndex < count) {
 
-        let minutes, seconds;
-        countdownInterval = setInterval(function () {
+//         let minutes, seconds;
+//         countdownInterval = setInterval(function () {
 
-            minutes = parseInt(duration / 60);
-            seconds = parseInt(duration % 60);
+//             minutes = parseInt(duration / 60);
+//             seconds = parseInt(duration % 60);
 
 
-            minutes = minutes < 10 ? `0${minutes}` : minutes;
-            seconds = seconds < 10 ? `0${seconds}` : seconds;
+//             minutes = minutes < 10 ? `0${minutes}` : minutes;
+//             seconds = seconds < 10 ? `0${seconds}` : seconds;
 
-            countdownElement.innerHTML = `${minutes}: ${seconds}`;
+//             countdownElement.innerHTML = `${minutes}: ${seconds}`;
 
-            if (--duration < 0) {
+//             if (--duration < 0) {
 
-                clearInterval(countdownInterval);
-                submitButton.click();
+//                 clearInterval(countdownInterval);
+//                 submitButton.click();
 
-            }
+//             }
 
-        }, 1000);
+//         }, 1000);
 
-    }
+//     }
 
-}
+// }
 
 
 
