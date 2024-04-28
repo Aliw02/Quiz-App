@@ -26,7 +26,7 @@ function getQuestions() {
             let qCount = questionsObject.length;
 
             // Create Bullets + Set Questions Count
-            createBullets(qCount);
+            // createBullets(qCount);
 
             // Add Question Data
             addQuestionData(questionsObject[currentIndex], qCount);
@@ -76,29 +76,29 @@ function getQuestions() {
 
 getQuestions();
 
-function createBullets(num) {
+// function createBullets(num) {
 
-    countSpan.innerHTML = num;
+//     countSpan.innerHTML = num;
 
-    // Create Spans
-    for (let i = 0; i < num; i++) {
+//     // Create Spans
+//     for (let i = 0; i < num; i++) {
 
-        // Create Span
-        let theBullet = document.createElement("span");
+//         // Create Span
+//         let theBullet = document.createElement("span");
 
-        // Check if it first one
-        if (i === 0) {
+//         // Check if it first one
+//         if (i === 0) {
 
-            theBullet.className = "on";
+//             theBullet.className = "on";
 
-        }
+//         }
 
-        // Append Bullets To Main Bullets Container
-        bulletsSpanContainer.appendChild(theBullet);
+//         // Append Bullets To Main Bullets Container
+//         bulletsSpanContainer.appendChild(theBullet);
 
-    }
+//     }
 
-}
+// }
 
 function addQuestionData(obj, count) {
 

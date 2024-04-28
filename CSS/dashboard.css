@@ -70,7 +70,6 @@ body {
   margin-bottom: 20px;
   border-radius: 6px;
   border: 1px solid #dbdada;
-  /* transition: 0.3s; */
 }
 
 .container .boxes .box input::placeholder {
@@ -94,7 +93,26 @@ body {
   caret-color: #dc0a0a;
 }
 
+
+
 .container .boxes .box .adding-form,
 .container .boxes .box .remove-form {
   display: none;
+}
+
+.container .boxes .box button {
+  padding: 15px 10px;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 6px;
+  outline: none;
+  cursor: pointer;
+}
+
+.container .boxes .box button#addingBtn {
+  background-color: #0075ff;
+}
+
+.container .boxes .box button#removeBtn {
+  background-color: #dc0a0a;
 }
