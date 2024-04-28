@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["Adminstor", "flaticon"]
+  "cSpell.words": ["Adminstor", "flaticon"],
+  "livePreview.defaultPreviewPath": "/dashboard.html"
 }

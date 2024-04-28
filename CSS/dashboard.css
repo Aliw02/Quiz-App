@@ -1,5 +1,7 @@
 * {
   box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 body {
@@ -17,9 +19,15 @@ body {
   text-align: center;
 }
 
+.container h2 {
+  margin-bottom: 20px;
+  color: #131313;
+}
+
 .container .boxes {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
   gap: 20px;
 }
 
@@ -29,12 +37,21 @@ body {
   box-shadow: -1px 1px 8px 0px #fcfcfc;
   border: 1px solid #b9b9b9;
   border-radius: 4px;
-  position: relative;
 }
 
 .container .boxes .box i {
   font-size: 46px;
+  width: 100%;
+  margin-bottom: 20px;
   cursor: pointer;
+}
+
+.container .boxes .box span#add {
+  color: #0075ff;
+}
+
+.container .boxes .box span#remove {
+  color: #dc0a0a;
 }
 
 .container .boxes .box i.fa-circle-minus {
@@ -46,34 +63,38 @@ body {
 }
 
 .container .boxes .box input {
+  width: 100%;
   font-size: 15px;
   margin-top: 20px;
   padding: 13px 5px;
   margin-bottom: 20px;
-  /* outline: 1px solid #0075ff; */
   border-radius: 6px;
-  border: 1px solid #eee;
+  border: 1px solid #dbdada;
+  /* transition: 0.3s; */
 }
 
 .container .boxes .box input::placeholder {
-  font-weight: normal;
-  font-size: 14px;
-  color: #b9b9b9;
+  font-size: 16px;
+  color: #808080;
 }
 
 .container .boxes .box .adding-form hr {
   border: 1px solid #0075ff;
 }
 
-.container .boxes .box .adding-form input {
+.container .boxes .box .adding-form input:focus {
+  border: none;
+  outline: 2px solid #0075ff;
   caret-color: #0075ff;
 }
 
-container .boxes .box .adding-form input:focus {
-  outline: 1px solid #0075ff;
+.container .boxes .box .remove-form input:focus {
+  border: none;
+  outline: 2px solid #dc0a0a;
+  caret-color: #dc0a0a;
 }
 
-.container .boxes .box .remove-form input {
-  border: 1px solid #dc0a0a;
-  caret-color: #dc0a0a;
+.container .boxes .box .adding-form,
+.container .boxes .box .remove-form {
+  display: none;
 }

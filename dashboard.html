@@ -18,25 +18,35 @@
     <div class="container">
         <h2>Dashboard Quiz App</h2>
         <div class="boxes">
-            <div class="box">
-                <i class="fa-solid fa-circle-plus"></i>
+            <div class="box" id="adding-box">
+                <i class="fa-solid fa-circle-plus" id="plusBtn"></i>
+                <p id="pAdd">Click to <span id="add">Add</span> Question</p>
                 <div class="adding-form">
                     <input type="text" id="title" placeholder="Enter The Title">
+                    <hr class="line">
                     <input type="text" id="answer_1" placeholder="Enter The First Answer">
+                    <hr>
                     <input type="text" id="answer_2" placeholder="Enter The Second Answer">
+                    <hr>
                     <input type="text" id="answer_3" placeholder="Enter The Third Answer">
+                    <hr>
                     <input type="text" id="answer_4" placeholder="Enter The Fourth Answer">
+                    <hr>
                     <input type="text" id="true-answer" placeholder="Enter The Right Answer">
                 </div>
             </div>
-            <div class="box">
-                <i class="fa-solid fa-circle-minus"></i>
+            <div class="box" id="remove-box">
+                <i class="fa-solid fa-circle-minus" id="minusBtn"></i>
+                <p id="pRemove">Click to <span id="remove">Remove</span> Question</p>
                 <div class="remove-form">
                     <input type="text" id="remove-input" placeholder="Enter the Question To Delete">
                 </div>
             </div>
         </div>
     </div>
+
+    <script src="/JS/main.js"></script>
+    <script src="/JS/dashboard.js"></script>
 
 </body>
 
