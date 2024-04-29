@@ -109,6 +109,13 @@ body {
   cursor: pointer;
 }
 
+
+.container .boxes .box #warn-span {
+  display: block;
+  padding: 20px;
+  font-size: 17px;
+}
+
 .container .boxes .box button#addingBtn {
   background-color: #0075ff;
 }

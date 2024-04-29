@@ -1,3 +1,4 @@
+// Get The Elements
 let removeBox = document.getElementById("remove-box");
 let removeForm = document.querySelector(".box .remove-form");
 let minusBtn = document.getElementById("minusBtn");
@@ -9,9 +10,20 @@ let addingBtn = document.getElementById("addingBtn");
 let plusBtn = document.getElementById("plusBtn");
 let pAdd = document.getElementById("pAdd");
 
+// Get The Inputs Values
+
 let inputs = document.querySelectorAll("#adding-box input");
+let titleInput = document.querySelector("#adding-box #title");
+let answer1Input = document.querySelector("#adding-box #answer_1");
+let answer2Input = document.querySelector("#adding-box #answer_2");
+let answer3Input = document.querySelector("#adding-box #answer_3");
+let answer4Input = document.querySelector("#adding-box #answer_4");
+let rightAnswerInput = document.querySelector("#adding-box #true-answer");
 
 
+// Create Warning Span
+let warnSpan = document.createElement("span");
+warnSpan.id = "warn-span";
 
 
 minusBtn.addEventListener("click", function () {
@@ -25,10 +37,6 @@ plusBtn.onclick = () => {
 
 addingBtn.onclick = () => {
     addingData();
-    inputs.forEach((e) => {
-        console.log(e.value);
-        e.value = "";
-    })
 }
 
 function displayAddingForm() {
@@ -51,12 +59,60 @@ function displayRemoveForm() {
 
 // Create a Function To Adding Data To JSON File
 function addingData() {
-    let myRequest = new XMLHttpRequest();
-    myRequest.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {
-            let data = JSON.parse(this.responseText);
+    inputs.forEach((e) => {
+        if (e.value === "") {
+            warnSpan.innerText = "You must adding value in every inputs fields :(";
+            warnSpan.style.color = "#dc0a0a";
+            addingBtn.parentNode.appendChild(warnSpan);
         }
+    })
+    if (rightAnswerInput.value === answer1Input.value || rightAnswerInput.value === answer2Input.value || rightAnswerInput.value === answer3Input.value || rightAnswerInput.value === answer4Input.value) {
+
+        let formData = new FormData();
+        formData.append('title', `${titleInput.value} ?`);
+        formData.append('answer_1', answer1Input.value);
+        formData.append('answer_2', answer2Input.value);
+        formData.append('answer_3', answer3Input.value);
+        formData.append('answer_4', answer4Input.value);
+        formData.append('right_answer', rightAnswerInput.value);
+
+        warnSpan.innerText = "Well Done, The Question Has Been Added Successfully !! :)";
+        warnSpan.style.color = "#0075ff";
+        addingBtn.parentNode.appendChild(warnSpan);
+
+        inputs.forEach((ele) => {
+
+            ele.value = '';
+
+        });
+
+        fetch('http://127.0.0.1:5000/add_data', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    warnSpan.innerText = "An error occurred while adding the question :(";
+                    warnSpan.style.color = "#dc0a0a";
+                    addingBtn.parentNode.appendChild(warnSpan);
+                }
+                return response.json();
+            })
+            .then(data => {
+                inputs.forEach((ele) => {
+                    ele.value = '';
+                });
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    } else {
+        warnSpan.innerText = "An error occurred while adding the question :(";
+        warnSpan.style.color = "#dc0a0a";
+        addingBtn.parentNode.appendChild(warnSpan);
+
+        inputs.forEach((ele) => {
+            ele.value = '';
+        });
     }
-    myRequest.open("GET", "questions.json", true);
-    myRequest.send();
 }
