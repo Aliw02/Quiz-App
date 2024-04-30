@@ -19,7 +19,36 @@ def add_data():
     with open('questions.json', "w") as file:
         json.dump(data, file, indent=4)
 
+
     return jsonify({"message": "Data Added Successfully"})
+
+@app.route('/delete_data', methods=["Get", 'POST'])
+def delete_data():
+    try:
+        jsonData = request.get_json()
+        formatData = jsonData['title']
+
+        with open('questions.json', "r") as file:
+
+            data = json.load(file)
+            # return data
+
+    except (FileNotFoundError, json.JSONDecodeError):
+        return jsonify({"error": "Data file not found or invalid JSON format"})
+
+
+    # Create a new list excluding the item to delete
+    new_data = [item for item in data if item.get('title') != formatData]
+
+    # Check if any item was deleted
+    if len(new_data) != len(data):
+
+        with open('questions.json', "w") as file:
+            json.dump(new_data, file, indent=4)
+        return jsonify({"message": "Data deleted successfully"})
+
+    else:
+        return jsonify({"error": "Data not found"})
 
 if __name__ == "__main__":
     app.run(debug=True)
