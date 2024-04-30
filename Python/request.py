@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, render_template
 import json
 from flask_cors import CORS
+from time import *
 
 app = Flask(__name__)
 CORS(app=app)
@@ -14,6 +15,7 @@ def add_data():
     except (FileNotFoundError, json.JSONDecodeError):
         data = []
 
+    sleep(5)
     data.append(jsonData)
 
     with open('questions.json', "w") as file:

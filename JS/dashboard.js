@@ -87,7 +87,9 @@ function addingData() {
                     warnSpan.style.color = "#dc0a0a";
                     addingBtn.parentNode.appendChild(warnSpan);
                 }
-                return response.json();
+                setTimeout(() => {
+                    return response.json();
+                }, 10000)
             })
             .then(data => {
 
@@ -97,11 +99,6 @@ function addingData() {
                 inputs.forEach((ele) => {
                     ele.value = '';
                 });
-
-                setInterval(() => {
-                    return data
-                }, 5000)
-
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
