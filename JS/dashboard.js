@@ -9,6 +9,7 @@ let addingForm = document.querySelector(".box .adding-form");
 let addingBtn = document.getElementById("addingBtn");
 let plusBtn = document.getElementById("plusBtn");
 let pAdd = document.getElementById("pAdd");
+let arrowBtn = document.querySelectorAll(".arrow");
 
 // Get The Inputs Values
 
@@ -21,34 +22,39 @@ let answer4Input = document.querySelector("#adding-box #answer_4");
 let rightAnswerInput = document.querySelector("#adding-box #true-answer");
 let removeInput = document.getElementById("remove-input");
 
+
 // Create Warning Span
 let warnSpan = document.createElement("span");
 warnSpan.id = "warn-span";
+warnSpan.style.color = "#dc0a0a";
 
 
 minusBtn.addEventListener("click", function () {
+
     displayRemoveForm();
+
 });
 
 plusBtn.onclick = () => {
+
     displayAddingForm();
+
 };
 
 
-addingBtn.onclick = () => {
-    addingData();
-}
-
 function displayAddingForm() {
+
     addingForm.style.display = "block";
     addingBox.style.border = "1px solid #0075ff";
     removeBox.style.display = "none";
     plusBtn.style.display = "none";
     pAdd.style.display = "none";
+
 };
 
 
 function displayRemoveForm() {
+
     removeForm.style.display = "block";
     removeBox.style.border = "1px solid #dc0a0a";
     addingBox.style.display = "none";
@@ -57,17 +63,55 @@ function displayRemoveForm() {
 
 };
 
+arrowBtn.forEach((element) => {
+
+    element.addEventListener("click", () => {
+
+        returnMenu();
+
+    })
+})
+
+// Set Function To Return Menu
+function returnMenu() {
+
+    addingForm.style.display = "none";
+    addingBox.style.border = "1px solid #b9b9b9";
+    removeBox.style.display = "block";
+    plusBtn.style.display = "block";
+    pAdd.style.display = "block";
+
+    removeForm.style.display = "none";
+    removeBox.style.border = "1px solid #b9b9b9";
+    addingBox.style.display = "block";
+    minusBtn.style.display = "block";
+    pRemove.style.display = "block";
+
+}
+
+addingBtn.onclick = () => {
+
+    addingData();
+};
+
 // Create a Function To Adding Data To JSON File
 function addingData() {
-    inputs.forEach((e) => {
-        if (e.value === "") {
-            warnSpan.innerText = "You must adding value in every inputs fields :(";
-            warnSpan.style.color = "#dc0a0a";
-            addingBtn.parentNode.appendChild(warnSpan);
-        }
-    })
+    let isInputEmpty = false; // متغير لتتبع حالة الإدخال
 
-    if (rightAnswerInput.value === answer1Input.value || rightAnswerInput.value === answer2Input.value || rightAnswerInput.value === answer3Input.value || rightAnswerInput.value === answer4Input.value) {
+    for (const e of inputs) {
+        if (e.value === "") {
+            warnSpan.innerText = "You mustn't leave any input blank :( ";
+            isInputEmpty = true; // تحديث الحالة إلى true إذا كان هناك حقل فارغ
+            break; // الخروج من الحلقة فور العثور على حقل فارغ
+        }
+    }
+    if (isInputEmpty) {
+        return warnSpan.innerText = "You mustn't leave any input blank :( ";
+    }
+    if (rightAnswerInput.value === answer1Input.value
+        || rightAnswerInput.value === answer2Input.value
+        || rightAnswerInput.value === answer3Input.value
+        || rightAnswerInput.value === answer4Input.value) {
 
         let formData = new FormData();
         formData.append('title', `${titleInput.value} ?`);
@@ -84,80 +128,99 @@ function addingData() {
             .then(response => {
                 if (!response.ok) {
                     warnSpan.innerText = "An error occurred while adding the question :(";
-                    warnSpan.style.color = "#dc0a0a";
-                    addingBtn.parentNode.appendChild(warnSpan);
                 }
-                setTimeout(() => {
-                    return response.json();
-                }, 10000)
+                return response.json();
             })
             .then(data => {
-
-                warnSpan.innerText = "Well Done, The Question Has Been Added Successfully !! :)";
-                warnSpan.style.color = "#0075ff";
-                addingBtn.parentNode.appendChild(warnSpan);
-                inputs.forEach((ele) => {
-                    ele.value = '';
-                });
+                if (data.message) {
+                    warnSpan.innerText = data.message;
+                    warnSpan.style.color = "#0075ff";
+                    inputs.forEach((ele) => {
+                        ele.value = '';
+                    });
+                } else {
+                    warnSpan.innerText = data.error
+                }
             })
             .catch(error => {
-                console.error('There was a problem with the fetch operation:', error);
+                warnSpan.innerText = `There is an error with server: ${error} :(`;
             });
-    } else {
-        warnSpan.innerText = "An error occurred while adding the question :(";
-        warnSpan.style.color = "#dc0a0a";
-        addingBtn.parentNode.appendChild(warnSpan);
 
-        inputs.forEach((ele) => {
-            ele.value = '';
-        });
+    } else {
+        warnSpan.innerText = "You must enter valid value of input of right answer :(";
+
+        rightAnswerInput.value = "";
     }
+
+    addingBtn.parentNode.appendChild(warnSpan);
 }
 
 removeBtn.onclick = function () {
-    deleteData()
+
+    deleteData();
+
 }
 
 // Create Function To Delete Questions 
 function deleteData() {
-    // جمع البيانات المطلوب حذفها (يمكنك تعديلها حسب احتياجك)
-    let dataToDelete = {
-        "title": `${removeInput.value} ?`
-    };
+    if (removeInput.value !== "") {
 
-    // إرسال طلب POST إلى نقطة النهاية /delete_data في التطبيق Flask
-    fetch('http://127.0.0.1:5000/delete_data', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dataToDelete)
-    })
-        .then(response => {
-            if (!response.ok) {
 
-                warnSpan.innerText = 'Network response was not ok';
+        // جمع البيانات المطلوب حذفها (يمكنك تعديلها حسب احتياجك)
+        let dataToDelete = {
+            "title": `${removeInput.value} ?`
+        };
+
+        // إرسال طلب POST إلى نقطة النهاية /delete_data في التطبيق Flask
+        fetch('http://127.0.0.1:5000/delete_data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dataToDelete)
+        })
+            .then(response => {
+                if (!response.ok) {
+
+                    warnSpan.innerText = 'Network response was not ok';
+                    removeBtn.parentNode.appendChild(warnSpan);
+
+                }
+                return response.json();
+            })
+            .then(data => {
+
+                if (data.message) {
+
+                    warnSpan.innerText = 'The Question Deleted Successfully';
+                    warnSpan.style.color = "#00c853" // Success Color
+                    removeInput.value = "";
+                    removeBtn.parentNode.appendChild(warnSpan);
+                }
+                else {
+
+                    warnSpan.innerText = data.error;
+                    removeInput.value = "";
+
+                }
+
+                setTimeout(() => {
+                    warnSpan.remove();
+                }, 10000)
+
+            })
+            .catch(error => {
+
+                warnSpan.innerText = `There was a problem with the fetch operation: ${error}`;
                 warnSpan.style.color = "#dc0a0a";
                 removeBtn.parentNode.appendChild(warnSpan);
+            });
 
-            }
-            return response.json();
-        })
-        .then(data => {
+    } else {
+        warnSpan.innerText = "You mustn't leave any input blank :( ";
 
-            warnSpan.innerText = 'The Question Deleted Successfully';
-            warnSpan.style.color = "#dc0a0a";
-            removeBtn.parentNode.appendChild(warnSpan);
+    }
 
-            setInterval(() => {
-                return data
-            }, 5000)
-
-        })
-        .catch(error => {
-
-            warnSpan.innerText = `There was a problem with the fetch operation: ${error}`;
-            warnSpan.style.color = "#dc0a0a";
-            removeBtn.parentNode.appendChild(warnSpan);
-        });
+    removeBtn.parentNode.appendChild(warnSpan);
 };
+

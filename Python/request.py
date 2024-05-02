@@ -9,20 +9,26 @@ CORS(app=app)
 @app.route('/add_data', methods=['POST'])
 def add_data():
     try:
+
         jsonData = request.form.to_dict()
+
         with open('questions.json', "r") as file:
+
             data = json.load(file)
+
     except (FileNotFoundError, json.JSONDecodeError):
         data = []
 
-    sleep(5)
-    data.append(jsonData)
+    
+    if jsonData != "":
+        data.append(jsonData)
+        with open('questions.json', "w") as file:
 
-    with open('questions.json', "w") as file:
-        json.dump(data, file, indent=4)
+            json.dump(data, file, indent=4)
 
-
-    return jsonify({"message": "Data Added Successfully"})
+        return jsonify({"message": "Well Done, The Question Has Been Added Successfully !! :)"})
+    else: 
+        return jsonify({"error": "You mustn't enter an empty value!!  :)"})
 
 @app.route('/delete_data', methods=["Get", 'POST'])
 def delete_data():
@@ -33,7 +39,6 @@ def delete_data():
         with open('questions.json', "r") as file:
 
             data = json.load(file)
-            # return data
 
     except (FileNotFoundError, json.JSONDecodeError):
         return jsonify({"error": "Data file not found or invalid JSON format"})
@@ -51,6 +56,7 @@ def delete_data():
 
     else:
         return jsonify({"error": "Data not found"})
+
 
 if __name__ == "__main__":
     app.run(debug=True)

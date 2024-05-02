@@ -16,11 +16,16 @@
 <body>
 
     <div class="container">
+
         <h2>Dashboard Quiz App</h2>
+
         <div class="boxes">
+
             <div class="box" id="adding-box">
+
                 <i class="fa-solid fa-circle-plus" id="plusBtn"></i>
                 <p id="pAdd">Click to <span id="add">Add</span> Question</p>
+
                 <form method="post" class="adding-form">
                     <input type="text" id="title" placeholder="Enter The Title">
                     <hr>
@@ -34,20 +39,39 @@
                     <hr>
                     <input type="text" id="true-answer" placeholder="Enter The Right Answer">
                     <button type="button" id="addingBtn">Adding Question</button>
+
+                    <div class="arrow">
+                        <div class="background">
+                            <i class="fa-solid fa-arrow-right back-btn" title="Back To Menu"></i>
+                        </div>
+                    </div>
+
                 </form>
+
             </div>
+
             <div class="box" id="remove-box">
+
                 <i class="fa-solid fa-circle-minus" id="minusBtn"></i>
                 <p id="pRemove">Click to <span id="remove">Remove</span> Question</p>
+
                 <form class="remove-form">
                     <input type="text" id="remove-input" placeholder="Enter the Question To Delete">
                     <button type="button" id="removeBtn">Remove Question</button>
+
+                    <div class="arrow">
+                        <div class="background">
+                            <i class="fa-solid fa-arrow-right back-btn" title="Back To Menu"></i>
+                        </div>
+                    </div>
+
                 </form>
+
             </div>
         </div>
     </div>
 
-    <script src="/JS/main.js"></script>
+    <!-- <script src="/JS/main.js"></script> -->
     <script src="/JS/dashboard.js"></script>
 
 </body>

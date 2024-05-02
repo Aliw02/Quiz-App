@@ -19,6 +19,8 @@ def delete_question(info):
             if item['title'] == info:
                 data.remove(item)
                 deleted = True
+            else:
+                print("There is not data with that name")
 
         # Check if any item was deleted
         if deleted:

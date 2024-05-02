@@ -41,8 +41,8 @@ body {
 
 .container .boxes .box i {
   font-size: 46px;
-  width: 100%;
   margin-bottom: 20px;
+  display: block;
   cursor: pointer;
 }
 
@@ -97,6 +97,7 @@ body {
 
 .container .boxes .box .adding-form,
 .container .boxes .box .remove-form {
+  position: relative;
   display: none;
 }
 
@@ -109,6 +110,42 @@ body {
   cursor: pointer;
 }
 
+.container .boxes .box .arrow {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+.container .boxes .box .arrow .background {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.container .boxes .box .adding-form .arrow .background {
+  background-color: #0075ff;
+}
+
+.container .boxes .box .remove-form .arrow .background {
+  background-color: #dc0a0a;
+}
+
+.container .boxes .box .arrow .background i.back-btn {
+  font-size: 22px;
+  margin: 0;
+  display: block;
+  color: #fff;
+}
+
+.container .boxes .box .arrow .background:hover i.back-btn {
+  animation: moving 0.31s infinite;
+}
 
 .container .boxes .box #warn-span {
   display: block;
@@ -122,4 +159,17 @@ body {
 
 .container .boxes .box button#removeBtn {
   background-color: #dc0a0a;
+}
+
+@keyframes moving {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(10px);
+  }
+
 }

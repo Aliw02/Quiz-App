@@ -52,7 +52,7 @@ body {
   border-bottom: 1px solid #dfdfdf;
 }
 
-.quiz-app .answers-area .answer input[type="Radio"]:checked + label {
+.quiz-app .answers-area .answer input[type="Radio"]:checked+label {
   color: #0075ff;
 }
 
@@ -149,6 +149,7 @@ body {
   margin-top: 20px;
   padding: 20px 0;
   background-color: #dfdfdf;
+  display: none;
 }
 
 .quiz-app .login .login-form input {
@@ -170,4 +171,11 @@ body {
   background-color: #0075ff;
   color: #fff;
   cursor: pointer;
+}
+
+#warn-span {
+  display: block;
+  padding: 20px;
+  font-size: 17px;
+  color: #dc0a0a;
 }

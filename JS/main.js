@@ -7,12 +7,18 @@ let answersArea = document.querySelector(".answers-area");
 let submitButton = document.querySelector(".submit-button");
 let results = document.querySelector(".results");
 let countdownElement = document.querySelector(".countdown");
-
+let formDisplayBtn = document.getElementById("login-btn");
+let loginForm = document.querySelector(".login-form");
+let loginInput = document.querySelector(".login-form input");
+let loginBtn = document.querySelector(".login-form button");
 
 // Set Options
 let currentIndex = 0;
 let rightAnswer = 0;
 let countdownInterval;
+let warnSpan = document.createElement("span");
+warnSpan.id = "warn-span";
+
 
 function getQuestions() {
 
@@ -266,5 +272,50 @@ function countdown(duration, count) {
 
 
 
+formDisplayBtn.onclick = () => {
+
+    formDisplay();
+
+};
+
+let makeItTrue = true
+
+// Set The Form Display function 
+function formDisplay() {
+
+    if (makeItTrue) {
+
+        loginForm.style.display = "block";
+        makeItTrue = false;
+
+    } else {
+
+        loginForm.style.display = "none";
+        makeItTrue = true;
+
+    }
+
+};
 
 
+loginBtn.onclick = () => {
+
+    login();
+
+};
+
+// Set The Login Function
+function login() {
+
+    if (loginInput.value === "abc") {
+
+        window.location.href = "/dashboard.html"
+
+    } else {
+
+        warnSpan.textContent = "You Must Enter Valid Password"
+        loginForm.appendChild(warnSpan);
+
+    }
+
+};
