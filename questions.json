@@ -70,21 +70,5 @@
         "answer_3": "<div class=\"class-name\">",
         "answer_4": "All Is Right",
         "right_answer": "All Is Right"
-    },
-    {
-        "title": "fs;lkf ?",
-        "answer_1": "sdfjs;",
-        "answer_2": "ckck",
-        "answer_3": "slakjs",
-        "answer_4": "d",
-        "right_answer": "d"
-    },
-    {
-        "title": "\u0621 ?",
-        "answer_1": "\u0626\u0645",
-        "answer_2": "wheed",
-        "answer_3": "s",
-        "answer_4": "ss;",
-        "right_answer": "s"
     }
 ]

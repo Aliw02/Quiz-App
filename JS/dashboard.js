@@ -9,7 +9,7 @@ let addingForm = document.querySelector(".box .adding-form");
 let addingBtn = document.getElementById("addingBtn");
 let plusBtn = document.getElementById("plusBtn");
 let pAdd = document.getElementById("pAdd");
-let arrowBtn = document.querySelectorAll(".arrow");
+let arrowBtn = document.querySelectorAll(".background");
 
 // Get The Inputs Values
 
@@ -96,60 +96,87 @@ addingBtn.onclick = () => {
 
 // Create a Function To Adding Data To JSON File
 function addingData() {
-    let isInputEmpty = false; // متغير لتتبع حالة الإدخال
 
+    let emptyInputValue = false;
     for (const e of inputs) {
         if (e.value === "") {
-            warnSpan.innerText = "You mustn't leave any input blank :( ";
-            isInputEmpty = true; // تحديث الحالة إلى true إذا كان هناك حقل فارغ
-            break; // الخروج من الحلقة فور العثور على حقل فارغ
+            emptyInputValue = true;
+            warnSpan.innerText = "Value mustn't be empty";
+            break
         }
     }
-    if (isInputEmpty) {
-        return warnSpan.innerText = "You mustn't leave any input blank :( ";
-    }
-    if (rightAnswerInput.value === answer1Input.value
-        || rightAnswerInput.value === answer2Input.value
-        || rightAnswerInput.value === answer3Input.value
-        || rightAnswerInput.value === answer4Input.value) {
+    if (!emptyInputValue) {
 
-        let formData = new FormData();
-        formData.append('title', `${titleInput.value} ?`);
-        formData.append('answer_1', answer1Input.value);
-        formData.append('answer_2', answer2Input.value);
-        formData.append('answer_3', answer3Input.value);
-        formData.append('answer_4', answer4Input.value);
-        formData.append('right_answer', rightAnswerInput.value);
+        if (rightAnswerInput.value === answer1Input.value
+            || rightAnswerInput.value === answer2Input.value
+            || rightAnswerInput.value === answer3Input.value
+            || rightAnswerInput.value === answer4Input.value
+            || rightAnswerInput.value.toLowerCase().startsWith("all")) {
 
-        fetch('http://127.0.0.1:5000/add_data', {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => {
-                if (!response.ok) {
-                    warnSpan.innerText = "An error occurred while adding the question :(";
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.message) {
-                    warnSpan.innerText = data.message;
-                    warnSpan.style.color = "#0075ff";
-                    inputs.forEach((ele) => {
-                        ele.value = '';
+            // Display a valid info message for the user
+            warnSpan.innerText = "All information is valid. Submitting your data...";
+            warnSpan.style.color = "#0075ff";
+
+            setTimeout(() => {
+
+                let formData = new FormData();
+                formData.append('title', `${titleInput.value} ?`);
+                formData.append('answer_1', answer1Input.value);
+                formData.append('answer_2', answer2Input.value);
+                formData.append('answer_3', answer3Input.value);
+                formData.append('answer_4', answer4Input.value);
+                formData.append('right_answer', rightAnswerInput.value);
+
+                fetch('http://127.0.0.1:5000/add_data', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => {
+
+                        if (!response.ok) {
+
+                            warnSpan.innerText = "An error occurred while adding the question :(";
+
+                        }
+                        return response.json();
+
+                    })
+
+                    .then(data => {
+
+                        if (data.message) {
+
+                            warnSpan.innerText = data.message;
+                            warnSpan.style.color = "#0075ff";
+                            inputs.forEach((ele) => {
+                                ele.value = '';
+
+                            });
+
+                        } else {
+
+                            warnSpan.innerText = data.error;
+                            warnSpan.style.color = "#dc0a0a";
+
+                        }
+
+                    })
+                    .catch(error => {
+
+                        warnSpan.innerText = `There is an error with server: ${error} :(`;
+
                     });
-                } else {
-                    warnSpan.innerText = data.error
-                }
-            })
-            .catch(error => {
-                warnSpan.innerText = `There is an error with server: ${error} :(`;
-            });
 
-    } else {
-        warnSpan.innerText = "You must enter valid value of input of right answer :(";
+            }, 5000); // The delay in milliseconds
+        }
 
-        rightAnswerInput.value = "";
+        else {
+
+            warnSpan.innerText = "Right Answer value must equal one of the else inputs fields values :(";
+
+            rightAnswerInput.value = "";
+
+        }
     }
 
     addingBtn.parentNode.appendChild(warnSpan);
@@ -164,63 +191,68 @@ removeBtn.onclick = function () {
 // Create Function To Delete Questions 
 function deleteData() {
     if (removeInput.value !== "") {
-
-
-        // جمع البيانات المطلوب حذفها (يمكنك تعديلها حسب احتياجك)
         let dataToDelete = {
             "title": `${removeInput.value} ?`
         };
 
-        // إرسال طلب POST إلى نقطة النهاية /delete_data في التطبيق Flask
-        fetch('http://127.0.0.1:5000/delete_data', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(dataToDelete)
-        })
-            .then(response => {
-                if (!response.ok) {
+        // Display a message to indicate the process has started
+        warnSpan.innerText = "Preparing to delete the question...";
+        warnSpan.style.color = "#0075ff"; // Information Color
 
-                    warnSpan.innerText = 'Network response was not ok';
-                    removeBtn.parentNode.appendChild(warnSpan);
+        removeBtn.parentNode.appendChild(warnSpan);
 
-                }
-                return response.json();
-            })
-            .then(data => {
+        // Wait for 5 seconds before sending the data
+        setTimeout(() => {
 
-                if (data.message) {
-
-                    warnSpan.innerText = 'The Question Deleted Successfully';
-                    warnSpan.style.color = "#00c853" // Success Color
-                    removeInput.value = "";
-                    removeBtn.parentNode.appendChild(warnSpan);
-                }
-                else {
-
-                    warnSpan.innerText = data.error;
-                    removeInput.value = "";
-
-                }
-
-                setTimeout(() => {
-                    warnSpan.remove();
-                }, 10000)
+            fetch('http://127.0.0.1:5000/delete_data', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dataToDelete)
 
             })
-            .catch(error => {
+                .then(response => {
+                    if (!response.ok) {
 
-                warnSpan.innerText = `There was a problem with the fetch operation: ${error}`;
-                warnSpan.style.color = "#dc0a0a";
-                removeBtn.parentNode.appendChild(warnSpan);
-            });
+                        throw new Error('Network response was not ok');
+
+                    }
+                    return response.json();
+
+                })
+
+                .then(data => {
+                    if (data.message) {
+
+                        warnSpan.innerText = 'The Question Deleted Successfully';
+
+                    } else {
+
+                        warnSpan.innerText = data.error;
+                        warnSpan.style.color = "#dc0a0a"; // Error Color
+
+                    }
+                    removeInput.value = "";
+                })
+                .catch(error => {
+
+                    warnSpan.innerText = `There was a problem with the fetch operation: ${error}`;
+                    warnSpan.style.color = "#dc0a0a"; // Error Color
+
+                });
+
+        }, 5000); // The delay in milliseconds
 
     } else {
-        warnSpan.innerText = "You mustn't leave any input blank :( ";
+
+        warnSpan.innerText = "You mustn't leave any input blank :(";
+        removeBtn.parentNode.appendChild(warnSpan);
 
     }
+}
 
-    removeBtn.parentNode.appendChild(warnSpan);
-};
+
+
+
 
