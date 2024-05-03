@@ -70,5 +70,21 @@
         "answer_3": "<div class=\"class-name\">",
         "answer_4": "All Is Right",
         "right_answer": "All Is Right"
+    },
+    {
+        "title": "Who is the best  ?",
+        "answer_1": "messi",
+        "answer_2": "messi too",
+        "answer_3": "lionel messi",
+        "answer_4": "messi with broken leg",
+        "right_answer": "all answer is right "
+    },
+    {
+        "title": "who is the best  ?",
+        "answer_1": "Messi",
+        "answer_2": "messi too",
+        "answer_3": "lionel Messi ",
+        "answer_4": "Messi with broken leg",
+        "right_answer": "all answer is correct"
     }
 ]

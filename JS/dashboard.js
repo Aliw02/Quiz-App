@@ -89,24 +89,37 @@ function returnMenu() {
 
 }
 
+// Event handler for the 'addingBtn' click event
 addingBtn.onclick = () => {
 
+    //Calls the 'addingData' function when the button is clicked
     addingData();
 };
 
 // Create a Function To Adding Data To JSON File
 function addingData() {
 
+    // Initialize a flag to check for empty input fields
     let emptyInputValue = false;
+
+    // Iterate over each input field to check if any are empty
     for (const e of inputs) {
         if (e.value === "") {
+
+            // If an empty value is found, set the flag to true 
             emptyInputValue = true;
+
+            // Display a warning message
             warnSpan.innerText = "Value mustn't be empty";
-            break
+
+            break;  // Exit the loop if an empty value is found
         }
     }
+
+    // Proceed only if all input fields have values
     if (!emptyInputValue) {
 
+        // Validate that the 'rightAnswerInput' matches one of the other answer inputs or starts with "all"
         if (rightAnswerInput.value === answer1Input.value
             || rightAnswerInput.value === answer2Input.value
             || rightAnswerInput.value === answer3Input.value
@@ -119,6 +132,7 @@ function addingData() {
 
             setTimeout(() => {
 
+                // Create a new FormData object to hold the input values
                 let formData = new FormData();
                 formData.append('title', `${titleInput.value} ?`);
                 formData.append('answer_1', answer1Input.value);
@@ -127,34 +141,42 @@ function addingData() {
                 formData.append('answer_4', answer4Input.value);
                 formData.append('right_answer', rightAnswerInput.value);
 
+                // Send a POST request to the server with the form data
                 fetch('http://127.0.0.1:5000/add_data', {
                     method: 'POST',
                     body: formData
                 })
                     .then(response => {
 
+                        // Check if the server response is not OK
                         if (!response.ok) {
 
+                            // Display an error message if the request failed
                             warnSpan.innerText = "An error occurred while adding the question :(";
 
                         }
-                        return response.json();
+
+                        return response.json(); // Parse the JSON response
 
                     })
 
                     .then(data => {
 
+                        //Check if the server sent a success message
                         if (data.message) {
 
+                            // Display an error message if the request failed
                             warnSpan.innerText = data.message;
-                            warnSpan.style.color = "#0075ff";
+
                             inputs.forEach((ele) => {
-                                ele.value = '';
+
+                                ele.value = '';  // Clear each input field
 
                             });
 
                         } else {
 
+                            // Display the error message from the server
                             warnSpan.innerText = data.error;
                             warnSpan.style.color = "#dc0a0a";
 
@@ -172,6 +194,7 @@ function addingData() {
 
         else {
 
+            // Display an error message if the 'rightAnswerInput' does not match any answer inputs
             warnSpan.innerText = "Right Answer value must equal one of the else inputs fields values :(";
 
             rightAnswerInput.value = "";
@@ -179,6 +202,7 @@ function addingData() {
         }
     }
 
+    // Append the warning message span to the button's parent node
     addingBtn.parentNode.appendChild(warnSpan);
 }
 
@@ -237,6 +261,7 @@ function deleteData() {
                 })
                 .catch(error => {
 
+                    //Handle any errors that occur during the fetch operation
                     warnSpan.innerText = `There was a problem with the fetch operation: ${error}`;
                     warnSpan.style.color = "#dc0a0a"; // Error Color
 
@@ -246,13 +271,10 @@ function deleteData() {
 
     } else {
 
+        // Display an error message if the 'rightAnswerInput' does not match any answer inputs
         warnSpan.innerText = "You mustn't leave any input blank :(";
-        removeBtn.parentNode.appendChild(warnSpan);
 
     }
+    //Append the warning message span to the button's parent node
+    removeBtn.parentNode.appendChild(warnSpan);
 }
-
-
-
-
-

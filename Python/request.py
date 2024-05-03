@@ -8,6 +8,15 @@ CORS(app=app)
 
 @app.route('/add_data', methods=['POST'])
 def add_data():
+
+    """
+    Handles incoming POST requests to add data to the 'questions.json' file.
+    - Parses the JSON data from the request form.
+    - Appends the data to the existing list or initializes a new list if the file is empty.
+    - Writes the updated data back to the file.
+    Returns a success message or an error message if the input is empty.
+    """
+
     try:
 
         jsonData = request.form.to_dict()
@@ -30,8 +39,17 @@ def add_data():
     else: 
         return jsonify({"error": "You mustn't enter an empty value!!  :)"})
 
+
 @app.route('/delete_data', methods=["Get", 'POST'])
 def delete_data():
+    """
+    Handles both GET and POST requests to delete data from the 'questions.json' file.
+    - Retrieves the JSON data from the request.
+    - Attempts to find and remove an item matching the 'title' specified in the JSON data.
+    - Updates the file if the item is found and deleted.
+    Returns a success message if the data is deleted, or an error message if the data is not found or if there are issues with the file.
+    """
+
     try:
         jsonData = request.get_json()
         formatData = jsonData['title']
@@ -59,4 +77,10 @@ def delete_data():
 
 
 if __name__ == "__main__":
+    """
+    This block serves as the entry point for the Flask application.
+    When the script is run directly (not imported), the following happens:
+    - The 'app.run()' method starts the local development server.
+    - Setting 'debug=True' enables the debugger and reloader for easier debugging during development.
+    """
     app.run(debug=True)
